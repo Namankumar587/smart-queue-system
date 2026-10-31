@@ -9,10 +9,13 @@ export const connectDB = async () => {
     return;
   }
 
-  const isAtlas = env.MONGODB_URI.startsWith('mongodb+srv://');
+  const uri = env.MONGODB_URI;
+  const isAtlas = uri.startsWith('mongodb+srv://');
+  const maskedUri = uri.replace(/\/\/[^:]+:[^@]+@/, '//***:***@');
+  console.log(`[MongoDB] Initializing connection to: ${maskedUri}`);
 
   try {
-    const conn = await mongoose.connect(env.MONGODB_URI, {
+    const conn = await mongoose.connect(uri, {
       serverSelectionTimeoutMS: isAtlas ? 10000 : 5000,
       maxPoolSize: isAtlas ? 25 : 10,
       minPoolSize: isAtlas ? 2 : 1,

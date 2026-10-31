@@ -9,12 +9,22 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
+const sanitizeMongoUri = (uri) => {
+  if (!uri) return 'mongodb://127.0.0.1:27017/smart_queue_glb';
+  let cleaned = uri.trim().replace(/^["']|["']$/g, '').trim();
+  // Auto-heal if protocol was omitted but host is Atlas
+  if (cleaned.includes('.mongodb.net') && !cleaned.startsWith('mongodb://') && !cleaned.startsWith('mongodb+srv://')) {
+    cleaned = `mongodb+srv://${cleaned}`;
+  }
+  return cleaned;
+};
+
 export const env = {
   PORT: process.env.PORT || 5000,
   NODE_ENV: process.env.NODE_ENV || 'development',
   CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5173',
   CORS_ORIGIN: process.env.CORS_ORIGIN || process.env.CLIENT_URL || 'http://localhost:5173',
-  MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/smart_queue_glb',
+  MONGODB_URI: sanitizeMongoUri(process.env.MONGODB_URI),
   JWT_SECRET: process.env.JWT_SECRET || 'dev_secret_academic_demo_do_not_use_in_prod_32chars',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '8h',
   SMS_ENABLED: process.env.SMS_ENABLED === 'true',
