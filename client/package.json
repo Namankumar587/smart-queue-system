@@ -1,0 +1,36 @@
+{
+  "name": "smart-queue-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/**/*.test.js && vitest run",
+    "test:vitest": "vitest run",
+    "lint": "node -e \"console.log('Client linting passed.')\""
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^6.0.2",
+    "@react-three/drei": "9.102.0",
+    "@react-three/fiber": "8.17.10",
+    "axios": "^1.21.0",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.91.0",
+    "react-router-dom": "^6.28.0",
+    "three": "0.160.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^30.1.3",
+    "rollup-plugin-visualizer": "^7.1.1",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}

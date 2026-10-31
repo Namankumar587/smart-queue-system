@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # Local MongoDB Container
+  mongodb:
+    image: mongo:7.0
+    container_name: smart_queue_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: smart_queue_glb
+
+  # Express Backend Service
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: smart_queue_server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/smart_queue_glb
+      - CLIENT_URL=http://localhost:5173
+      - JWT_SECRET=glb_academic_mini_project_secret_key_32chars_demo!
+      - SMS_ENABLED=false
+    depends_on:
+      - mongodb
+
+  # Vite React Frontend Service
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: smart_queue_client
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+
+volumes:
+  mongo_data:
+

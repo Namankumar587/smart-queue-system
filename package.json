@@ -1,0 +1,37 @@
+{
+  "name": "smart-queue-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smart Queue & Token System for Local Clinics - GL Bajaj Institute of Technology & Management, CSE (Data Science)",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "start": "npm run start --workspace=server",
+    "build:client": "npm run build --workspace=client",
+    "build": "npm run build --workspace=client",
+    "test:server": "npm run test --workspace=server",
+    "test:client": "npm run test --workspace=client",
+    "test": "npm run test:server && npm run test:client",
+    "lint": "npm run lint --workspace=server",
+    "seed": "npm run seed --workspace=server",
+    "seed:safe": "npm run seed:safe --workspace=server",
+    "db:check": "npm run db:check --workspace=server",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down"
+  },
+  "keywords": [
+    "smart-queue",
+    "clinic",
+    "token-system",
+    "gl-bajaj",
+    "express",
+    "react",
+    "vite"
+  ],
+  "author": "GL Bajaj CSE (Data Science)",
+  "license": "ISC"
+}

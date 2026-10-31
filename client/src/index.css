@@ -1,0 +1,741 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Cosmic Crimson Design Tokens (Matches Reference Aesthetic) */
+  --bg-app: #030004;
+  /* Deep obsidian cosmic void */
+  --bg-surface: rgba(26, 6, 13, 0.68);
+  /* Frosted crimson glass surface */
+  --bg-surface-elevated: rgba(48, 10, 22, 0.82);
+  /* Elevated glass modal & cards */
+  --bg-surface-subtle: rgba(16, 3, 8, 0.65);
+  /* Nested glass containers */
+  --border-subtle: rgba(255, 60, 95, 0.22);
+  /* Hairline rose-crimson border */
+  --border-hover: rgba(255, 95, 130, 0.45);
+  /* Interactive border glow */
+  --border-focus: #ff2d55;
+  /* Focus ring neon ruby */
+
+  /* Text Contrast Hierarchy */
+  --text-primary: #FFFFFF;
+  /* Pure white high-contrast headline */
+  --text-muted: #E2B4BE;
+  /* Soft blush rose muted text */
+  --text-dim: #9E6D78;
+  /* Tertiary muted text */
+
+  /* Cosmic Crimson Accents & State Colors */
+  --primary: #FF2D55;
+  /* Signature cosmic crimson neon */
+  --primary-hover: #E61E46;
+  --cyan-accent: #FF2D55;
+  /* Re-mapped to crimson accent */
+  --cyan-glow: rgba(255, 45, 85, 0.35);
+  --blue-primary: #FF2D55;
+  /* Primary CTA mapped to crimson */
+  --blue-hover: #E61E46;
+  --blue-subtle: rgba(255, 45, 85, 0.16);
+  --success: #10B981;
+  /* Completed consultation */
+  --success-subtle: rgba(16, 185, 129, 0.16);
+  --warning-amber: #F59E0B;
+  /* Senior citizen priority & waiting */
+  --warning-subtle: rgba(245, 158, 11, 0.16);
+  --priority-violet: #A855F7;
+  /* Differently-abled priority */
+  --violet-subtle: rgba(168, 85, 247, 0.16);
+  --danger-red: #FF3B30;
+  /* Emergency walk-in */
+  --danger-subtle: rgba(255, 59, 48, 0.16);
+
+  /* Spacing Scale (4, 8, 12, 16, 24, 32 px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Layout Boundaries */
+  --max-content-width: 1140px;
+  --radius-sm: 10px;
+  --radius-card: 20px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Elevation Shadows & Glowing Ambience */
+  --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 120, 150, 0.25);
+  --shadow-glow: 0 0 35px rgba(255, 45, 85, 0.28);
+}
+
+/* Global Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  overflow: visible;
+  background-color: var(--bg-app);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 35, 75, 0.25) 0%, rgba(15, 2, 7, 0.85) 65%, #030004 100%),
+    url('/cosmic-nebula-bg.jpg');
+  background-position: top center;
+  background-size: 100% auto, cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility: Support prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-reveal,
+  .progress-bar-fill,
+  .qr-success-tick,
+  .queue-position-highlight {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .page-view-transition {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .beacon-pulse,
+  .cosmic-shimmer-border,
+  .subtle-float,
+  .cosmic-glow-breathing {
+    animation: none !important;
+  }
+}
+
+/* Cosmic Animated Micro-interactions */
+@keyframes beaconPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.7);
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 0.85;
+    box-shadow: 0 0 12px 4px rgba(255, 45, 85, 0.45);
+  }
+}
+
+.beacon-pulse {
+  animation: beaconPulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes cosmicShimmerBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.cosmic-shimmer-border {
+  background: linear-gradient(90deg, #ff2d55, #ff6b8b, #c026d3, #ff2d55);
+  background-size: 300% 300%;
+  animation: cosmicShimmerBorder 4s ease infinite;
+}
+
+@keyframes subtleFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.subtle-float {
+  animation: subtleFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes cosmicGlowBreathing {
+
+  0%,
+  100% {
+    box-shadow: 0 0 18px rgba(255, 45, 85, 0.22), inset 0 1px 1px rgba(255, 120, 160, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(255, 45, 85, 0.48), inset 0 1px 2px rgba(255, 160, 200, 0.38);
+  }
+}
+
+.cosmic-glow-breathing {
+  animation: cosmicGlowBreathing 3.6s ease-in-out infinite;
+}
+
+/* Tabular Numbers for all token codes, timestamps and queue metrics */
+.tabular-nums,
+.token-display,
+[data-tabular="true"] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Accessibility Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+/* Form Styles */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-label .required-dot {
+  color: var(--danger-red);
+  margin-left: var(--space-1);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-field::placeholder {
+  color: var(--text-dim);
+}
+
+.input-field:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--cyan-glow);
+}
+
+.input-field.input-error {
+  border-color: var(--danger-red);
+}
+
+.input-field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Card & Glass Utilities */
+.clinical-card {
+  background: linear-gradient(135deg, rgba(28, 6, 14, 0.75) 0%, rgba(14, 3, 7, 0.9) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.clinical-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 45, 85, 0.15);
+}
+
+.cosmic-glass {
+  background: linear-gradient(135deg, rgba(35, 7, 16, 0.72) 0%, rgba(14, 2, 7, 0.88) 100%);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 65, 105, 0.24);
+  border-radius: var(--radius-card);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 130, 165, 0.28);
+}
+
+.cosmic-glass-hero {
+  background: linear-gradient(135deg, rgba(95, 16, 32, 0.88) 0%, rgba(42, 6, 14, 0.96) 100%);
+  backdrop-filter: blur(35px) saturate(200%);
+  -webkit-backdrop-filter: blur(35px) saturate(200%);
+  border: 1.5px solid rgba(255, 95, 130, 0.55);
+  border-radius: 24px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(255, 45, 85, 0.35), inset 0 1px 2px rgba(255, 160, 190, 0.45);
+}
+
+.cosmic-halo {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(55px);
+  opacity: 0.5;
+  background: radial-gradient(circle, rgba(255, 45, 85, 0.65) 0%, rgba(200, 20, 60, 0.2) 50%, transparent 70%);
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 70, 110, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 45, 85, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill:hover {
+  background: rgba(25, 4, 10, 0.95);
+  border-color: rgba(255, 95, 140, 0.6);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 45, 85, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-pill-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-pill:hover .btn-pill-icon {
+  transform: translateX(2px);
+  background: #FFFFFF;
+}
+
+@media (max-width: 480px) {
+  .clinical-card {
+    padding: var(--space-4);
+  }
+}
+
+/* Pulse shimmer skeleton */
+@keyframes shimmer {
+  0% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0.45;
+  }
+}
+
+.skeleton-pulse {
+  background: linear-gradient(90deg, #16223B 25%, #1F3052 50%, #16223B 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: var(--radius-sm);
+}
+
+/* Spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.85s linear infinite;
+}
+
+/* Accessible Range Slider Styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  outline: none;
+  transition: background 0.15s ease;
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+/* =========================================================================
+   PROMPT 30 - MOTION & PERFORMANCE BUDGET SYSTEM
+   - Subtle motion ONLY where it clarifies state:
+     1. .motion-reveal (section reveal: 240ms)
+     2. .progress-bar-fill (smooth progress change: 240ms)
+     3. .qr-success-tick (QR generation / check-in success: 220ms)
+     4. .queue-position-highlight (queue position change / near-turn: 240ms)
+   - Strictly <= 250ms for micro-interactions
+   - Non-blocking, calm readability
+   - Full prefers-reduced-motion collapse
+   - Responsive scaling covering 360px - 1920px
+   ========================================================================= */
+
+/* 1. Section Reveal: 240ms subtle fade & slight translation */
+@keyframes motionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-reveal {
+  animation: motionReveal 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* 2. Progress Change: 240ms smooth width & color transition */
+.progress-bar-fill {
+  transition: width 240ms cubic-bezier(0.4, 0, 0.2, 1), background-color 240ms ease;
+  will-change: width;
+}
+
+/* 3. QR Success Tick: 220ms checkmark pop for token generation & scanner check-in */
+@keyframes qrTickPop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.qr-success-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: qrTickPop 220ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* 4. Queue Position Highlight: 240ms subtle focus pulse when position changes */
+@keyframes queuePositionGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.45);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.18);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
+  }
+}
+
+.queue-position-highlight {
+  animation: queuePositionGlow 240ms ease-out 1;
+}
+
+/* Responsive Range: 360px Mobile to 1920px Ultrawide Support */
+@media (max-width: 480px) {
+
+  html,
+  body {
+    font-size: 15px;
+  }
+
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .clinical-card {
+    padding: var(--space-3);
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+
+/* Page Route Transition & Portal App Reveal (240ms within budget) */
+@keyframes pageViewFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-view-transition {
+  animation: pageViewFadeIn 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.portal-unlocked #root,
+body.page-revealed #root {
+  animation: pageViewFadeIn 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* =========================================================================
+   SCROLL-TRIGGERED 3D & 2D RING EFFECTS & RADAR PULSES
+   ========================================================================= */
+
+@keyframes ringExpandPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+    box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.7);
+  }
+
+  60% {
+    transform: scale(1.35);
+    opacity: 0.25;
+    box-shadow: 0 0 16px 6px rgba(255, 45, 85, 0.1);
+  }
+
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+    box-shadow: 0 0 20px 8px rgba(255, 45, 85, 0);
+  }
+}
+
+.ring-pulse-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1.5px solid currentColor;
+  animation: ringExpandPulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes mouseWheelScroll {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateY(5px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+}
+
+.mouse-wheel-dot {
+  width: 3px;
+  height: 5px;
+  background-color: #ff2d55;
+  border-radius: 2px;
+  animation: mouseWheelScroll 1.5s ease-in-out infinite;
+}
+
+@keyframes orbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit-spin-slow {
+  animation: orbitSpin 14s linear infinite;
+}
+
+/* Stage Content Smooth Transition on Scroll/Click */
+@keyframes contentStageTransition {
+  0% {
+    opacity: 0.35;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.stage-content-enter {
+  animation: contentStageTransition 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform, filter;
+}
+
+/* =========================================================================
+   PRINT STYLESHEET (Thermal Slip / Patient Pass Export)
+   ========================================================================= */
+@media print {
+  nav, footer, button, .no-print, [role="button"], form {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .container, main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .card, [class*="card"] {
+    border: 2px solid #000000 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .tabular-nums {
+    color: #000000 !important;
+  }
+}

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Queue &amp; Token System | GL Bajaj Local Clinics</title>
+    <meta name="description" content="Academic Mini Project: Real-time Smart Queue &amp; Token Management for Local Clinics - GL Bajaj Institute of Technology &amp; Management" />
+    <meta name="theme-color" content="#ff2d55" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/smart-queue-emblem.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* 3D Animated Futuristic Transition Stage */
+      #page-curtain {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        background-color: #030005;
+        background-image: radial-gradient(circle at 50% 50%, rgba(35, 7, 18, 0.7) 0%, #030005 85%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        overflow: hidden;
+        perspective: 1200px;
+        transform-style: preserve-3d;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        cursor: pointer;
+        transition: transform 0.65s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.65s ease, filter 0.65s ease;
+      }
+
+      /* Full-Page 3D Warp Jump into the Website */
+      #page-curtain.warp-active {
+        transform: perspective(1000px) translateZ(650px) scale(1.6);
+        opacity: 0;
+        filter: blur(20px) brightness(1.8);
+        pointer-events: none;
+      }
+
+      /* 3D Starfield / Hyperspace Canvas */
+      .warp-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Central 3D Spatial Gyroscope Core */
+      .scene-3d {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        perspective: 1000px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-style: preserve-3d;
+        margin-bottom: 24px;
+        z-index: 2;
+        transition: transform 0.4s ease;
+      }
+
+      .gyroscope {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        animation: gyroFloat 5s ease-in-out infinite;
+      }
+
+      @keyframes gyroFloat {
+        0%, 100% { transform: translateY(0px) rotateZ(0deg); }
+        50% { transform: translateY(-8px) rotateZ(3deg); }
+      }
+
+      .ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        transform-style: preserve-3d;
+      }
+
+      .ring-x {
+        border-color: rgba(255, 45, 85, 0.75);
+        box-shadow: 0 0 24px rgba(255, 45, 85, 0.5), inset 0 0 16px rgba(255, 45, 85, 0.3);
+        animation: spinRingX 7s linear infinite;
+      }
+
+      .ring-y {
+        inset: 14px;
+        border-color: rgba(34, 211, 238, 0.75);
+        box-shadow: 0 0 24px rgba(34, 211, 238, 0.45), inset 0 0 16px rgba(34, 211, 238, 0.25);
+        animation: spinRingY 5.5s linear infinite;
+      }
+
+      .ring-z {
+        inset: 28px;
+        border: 1.5px dashed rgba(255, 107, 139, 0.6);
+        animation: spinRingZ 9s linear infinite;
+      }
+
+      @keyframes spinRingX {
+        0% { transform: rotateX(0deg) rotateY(28deg); }
+        100% { transform: rotateX(360deg) rotateY(28deg); }
+      }
+
+      @keyframes spinRingY {
+        0% { transform: rotateY(0deg) rotateX(42deg); }
+        100% { transform: rotateY(360deg) rotateX(42deg); }
+      }
+
+      @keyframes spinRingZ {
+        0% { transform: rotateZ(0deg) rotateY(-35deg); }
+        100% { transform: rotateZ(360deg) rotateY(-35deg); }
+      }
+
+      .core-hologram {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateZ(24px);
+      }
+
+      .emblem-3d {
+        width: 66px;
+        height: 66px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 22px rgba(255, 45, 85, 0.95));
+        animation: emblemLevitate 3s ease-in-out infinite;
+      }
+
+      @keyframes emblemLevitate {
+        0%, 100% { transform: scale(1) translateZ(0); }
+        50% { transform: scale(1.06) translateZ(12px); }
+      }
+
+      .core-glow {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 45, 85, 0.5) 0%, rgba(34, 211, 238, 0.25) 50%, transparent 70%);
+        filter: blur(16px);
+        pointer-events: none;
+        animation: glowBreathing 2.4s ease-in-out infinite alternate;
+      }
+
+      @keyframes glowBreathing {
+        0% { transform: scale(0.9); opacity: 0.6; }
+        100% { transform: scale(1.2); opacity: 1; }
+      }
+
+      /* Futuristic HUD UI */
+      .hud-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 2;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .hud-wrap.fade-out {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 14px;
+        border-radius: 9999px;
+        background: rgba(255, 45, 85, 0.12);
+        border: 1px solid rgba(255, 45, 85, 0.35);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        color: #ff94ab;
+        margin-bottom: 14px;
+        box-shadow: 0 0 14px rgba(255, 45, 85, 0.2);
+      }
+
+      .hud-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #22d3ee;
+        box-shadow: 0 0 8px #22d3ee;
+        animation: pulseDot 1s infinite alternate;
+      }
+
+      @keyframes pulseDot {
+        0% { opacity: 0.4; }
+        100% { opacity: 1; }
+      }
+
+      .hud-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        margin: 0 0 6px 0;
+        background: linear-gradient(135deg, #ffffff 40%, #ffc0cb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hud-sub {
+        font-size: 0.8125rem;
+        color: #bfa5af;
+        margin: 0 0 20px 0;
+        letter-spacing: 0.02em;
+      }
+
+      /* 3D Progress Hologram Track */
+      .hud-track-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .hud-track {
+        width: 170px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 60, 95, 0.25);
+        border-radius: 999px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+      }
+
+      .hud-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ff2d55, #ff6b8b, #22d3ee);
+        border-radius: 999px;
+        box-shadow: 0 0 12px rgba(255, 45, 85, 0.85);
+        transition: width 0.05s linear;
+      }
+
+      .hud-pct {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #22d3ee;
+        min-width: 38px;
+        text-align: left;
+      }
+
+      .hud-hint {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.04em;
+        transition: color 0.2s ease;
+      }
+
+      .hud-hint:hover {
+        color: #ffffff;
+      }
+
+      /* Accessibility: Instant skip for reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        #page-curtain {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Full-Page 3D Animated Futuristic Transition Veil -->
+    <div id="page-curtain" aria-label="3D Quantum Gateway" role="status">
+      <!-- 3D Starfield & Particle Warp Canvas -->
+      <canvas id="warp-canvas" class="warp-canvas"></canvas>
+
+      <!-- Central 3D Spatial Gyroscope Core -->
+      <div class="scene-3d">
+        <div class="gyroscope">
+          <div class="ring ring-x"></div>
+          <div class="ring ring-y"></div>
+          <div class="ring ring-z"></div>
+          <div class="core-hologram">
+            <div class="core-glow"></div>
+            <img src="/smart-queue-emblem.png" alt="Smart Queue 3D Emblem" class="emblem-3d" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Futuristic HUD Info -->
+      <div class="hud-wrap" id="hud-wrap">
+        <div class="hud-badge">
+          <span class="hud-dot"></span>
+          <span>SPATIAL PORTAL // INITIALIZE</span>
+        </div>
+        <h1 class="hud-title">SMART QUEUE &amp; TOKEN SYSTEM</h1>
+        <p class="hud-sub">Local Clinic Care Operations &bull; GL Bajaj</p>
+
+        <div class="hud-track-row">
+          <div class="hud-track">
+            <div class="hud-fill" id="hud-fill"></div>
+          </div>
+          <div class="hud-pct" id="hud-pct">0%</div>
+        </div>
+
+        <div class="hud-hint">
+          Click anywhere or press Esc to enter &rarr;
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Warp Engine & Transition Controller -->
+    <script>
+      (function () {
+        var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var curtain = document.getElementById('page-curtain');
+        if (!curtain) return;
+
+        if (prefersReduced) {
+          curtain.style.display = 'none';
+          if (curtain.parentNode) curtain.parentNode.removeChild(curtain);
+          return;
+        }
+
+        var canvas = document.getElementById('warp-canvas');
+        var ctx = canvas.getContext('2d');
+        var width, height;
+
+        function resize() {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // 3D Particles Simulation
+        var numParticles = 320;
+        var particles = [];
+        var speed = 3.6;
+        var isWarping = false;
+        var animId = null;
+
+        for (var i = 0; i < numParticles; i++) {
+          particles.push({
+            x: (Math.random() - 0.5) * 2000,
+            y: (Math.random() - 0.5) * 2000,
+            z: Math.random() * 1000 + 1,
+            pz: 1000,
+            color: Math.random() > 0.4 ? '#ff2d55' : (Math.random() > 0.5 ? '#22d3ee' : '#ffffff'),
+            size: Math.random() * 2 + 1
+          });
+        }
+
+        var fill = document.getElementById('hud-fill');
+        var pct = document.getElementById('hud-pct');
+        var hudWrap = document.getElementById('hud-wrap');
+
+        var duration = 1200; // 1.2s smooth 3D experience
+        var startTime = null;
+        var unveiled = false;
+
+        function unveilWebsite() {
+          if (unveiled) return;
+          unveiled = true;
+          isWarping = true;
+
+          if (fill) fill.style.width = '100%';
+          if (pct) pct.textContent = '100%';
+          if (hudWrap) hudWrap.classList.add('fade-out');
+
+          // Engage 3D hyperspace warp curtain dissolve
+          curtain.classList.add('warp-active');
+          document.body.classList.add('page-revealed');
+
+          setTimeout(function () {
+            if (animId) cancelAnimationFrame(animId);
+            window.removeEventListener('resize', resize);
+            if (curtain && curtain.parentNode) {
+              curtain.parentNode.removeChild(curtain);
+            }
+          }, 680);
+        }
+
+        function render(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var elapsed = timestamp - startTime;
+          var progress = Math.min(elapsed / duration, 1);
+
+          var ease = 1 - Math.pow(1 - progress, 2);
+          var pctVal = Math.round(ease * 100);
+
+          if (!unveiled) {
+            if (fill) fill.style.width = pctVal + '%';
+            if (pct) pct.textContent = pctVal + '%';
+          }
+
+          // Accelerate particle speed dynamically on hyperspace warp
+          if (isWarping) {
+            speed *= 1.2;
+            if (speed > 65) speed = 65;
+          }
+
+          // Draw 3D starfield with motion-blur fade
+          ctx.fillStyle = 'rgba(3, 0, 5, 0.28)';
+          ctx.fillRect(0, 0, width, height);
+
+          var cx = width / 2;
+          var cy = height / 2;
+          var fov = 320;
+
+          for (var j = 0; j < numParticles; j++) {
+            var p = particles[j];
+            p.pz = p.z;
+            p.z -= speed;
+
+            if (p.z <= 1) {
+              p.z = 1000;
+              p.pz = 1000;
+              p.x = (Math.random() - 0.5) * 2000;
+              p.y = (Math.random() - 0.5) * 2000;
+            }
+
+            var k = fov / p.z;
+            var px = p.x * k + cx;
+            var py = p.y * k + cy;
+
+            var pk = fov / p.pz;
+            var ppx = p.x * pk + cx;
+            var ppy = p.y * pk + cy;
+
+            if (px >= 0 && px <= width && py >= 0 && py <= height) {
+              var alpha = Math.min(1, (1000 - p.z) / 450);
+              ctx.strokeStyle = p.color;
+              ctx.globalAlpha = alpha;
+              ctx.lineWidth = Math.max(1, p.size * (1 - p.z / 1000) * (isWarping ? 2.5 : 1));
+              ctx.beginPath();
+              ctx.moveTo(ppx, ppy);
+              ctx.lineTo(px, py);
+              ctx.stroke();
+            }
+          }
+
+          if (progress >= 1 && !unveiled) {
+            unveilWebsite();
+          }
+
+          animId = requestAnimationFrame(render);
+        }
+
+        animId = requestAnimationFrame(render);
+
+        // Click or press key to jump to website immediately
+        curtain.addEventListener('click', unveilWebsite);
+        window.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+            unveilWebsite();
+          }
+        });
+      })();
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
