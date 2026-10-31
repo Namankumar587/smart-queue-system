@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "build": "node -e \"console.log('Backend build complete.')\"",
     "seed": "node src/scripts/seed.js",
     "seed:safe": "node src/scripts/seedSafe.js",
     "db:check": "node src/scripts/checkDb.js",
