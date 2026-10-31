@@ -1,10 +1,14 @@
 import app from './app.js';
 import { env } from './config/env.js';
 import { connectDB, disconnectDB } from './config/db.js';
+import { ensureBaselineData } from './services/bootstrap.service.js';
 
 const startServer = async () => {
   // Connect to database
   await connectDB();
+
+  // Auto-bootstrap baseline clinic and doctors if empty database is connected
+  await ensureBaselineData();
 
   const server = app.listen(env.PORT, () => {
     console.log(`=======================================================`);
