@@ -16,6 +16,10 @@ const sanitizeMongoUri = (uri) => {
   if (cleaned.includes('.mongodb.net') && !cleaned.startsWith('mongodb://') && !cleaned.startsWith('mongodb+srv://')) {
     cleaned = `mongodb+srv://${cleaned}`;
   }
+  // Ensure Atlas connects against the admin auth database
+  if (cleaned.includes('.mongodb.net') && !cleaned.includes('authSource=')) {
+    cleaned += (cleaned.includes('?') ? '&' : '?') + 'authSource=admin';
+  }
   return cleaned;
 };
 

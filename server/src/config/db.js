@@ -12,7 +12,11 @@ export const connectDB = async () => {
   const uri = env.MONGODB_URI;
   const isAtlas = uri.startsWith('mongodb+srv://');
   const maskedUri = uri.replace(/\/\/[^:]+:[^@]+@/, '//***:***@');
+  const userMatch = uri.match(/\/\/([^:]+):/);
   console.log(`[MongoDB] Initializing connection to: ${maskedUri}`);
+  if (userMatch) {
+    console.log(`[MongoDB] Authenticating with Database User: "${userMatch[1]}"`);
+  }
 
   try {
     const conn = await mongoose.connect(uri, {
