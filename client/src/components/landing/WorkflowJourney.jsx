@@ -166,7 +166,7 @@ export default function WorkflowJourney() {
 
       const rect = trackRef.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      const stickyTop = 68;
+      const stickyTop = isMobile ? 56 : 68;
       const totalScrollable = rect.height - vh;
 
       if (totalScrollable <= 0) return;
@@ -179,9 +179,9 @@ export default function WorkflowJourney() {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, [force2D]);
+  }, [force2D, isMobile]);
 
-  // Direct scrubbing from canvas or mouse wheel
+  // Direct scrubbing from canvas, mouse wheel, or touch
   const handleDirectScrub = useCallback(
     (deltaProgress) => {
       if (!trackRef.current || force2D || typeof window === 'undefined') return;
@@ -196,7 +196,7 @@ export default function WorkflowJourney() {
 
       const currentScrollY = window.scrollY;
       const trackTop = currentScrollY + rect.top;
-      const stickyTop = 68;
+      const stickyTop = isMobile ? 56 : 68;
       const targetScrollY = trackTop - stickyTop + totalScrollable * nextProgress;
 
       window.scrollTo({
@@ -204,7 +204,7 @@ export default function WorkflowJourney() {
         behavior: 'instant'
       });
     },
-    [force2D]
+    [force2D, isMobile]
   );
 
   // Jump to specific station smoothly
@@ -215,15 +215,18 @@ export default function WorkflowJourney() {
     activeStationIdRef.current = stationId;
     setActiveStationId(stationId);
 
+    const checkpointFraction = idx / (WORKFLOW_STATIONS.length - 1);
+    // Instant 3D camera & node animation trigger
+    scrollProgressRef.current = checkpointFraction;
+
     if (!force2D && trackRef.current && typeof window !== 'undefined') {
       isAutoScrollingRef.current = true;
       const rect = trackRef.current.getBoundingClientRect();
       const currentScrollY = window.scrollY;
       const trackTop = currentScrollY + rect.top;
       const totalScrollable = rect.height - window.innerHeight;
-      const stickyTop = 68;
+      const stickyTop = isMobile ? 56 : 68;
 
-      const checkpointFraction = idx / (WORKFLOW_STATIONS.length - 1);
       const targetScrollY = trackTop - stickyTop + totalScrollable * checkpointFraction;
 
       window.scrollTo({
@@ -235,6 +238,39 @@ export default function WorkflowJourney() {
         isAutoScrollingRef.current = false;
       }, 750);
     }
+  };
+
+  const touchStartYRef = useRef(null);
+
+  const handleContainerWheel = useCallback(
+    (e) => {
+      if (force2D || typeof window === 'undefined' || !trackRef.current) return;
+      const rect = trackRef.current.getBoundingClientRect();
+      const stickyTop = isMobile ? 56 : 68;
+      // When pinned in the viewport, allow mouse wheel to scrub stages directly
+      if (rect.top <= stickyTop + 2 && rect.bottom >= window.innerHeight - 2) {
+        handleDirectScrub(e.deltaY * 0.0006);
+      }
+    },
+    [force2D, isMobile, handleDirectScrub]
+  );
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) {
+      touchStartYRef.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartYRef.current === null || !e.touches || !e.touches[0]) return;
+    const currentY = e.touches[0].clientY;
+    const deltaY = touchStartYRef.current - currentY;
+    touchStartYRef.current = currentY;
+    handleDirectScrub(deltaY * 0.0012);
+  };
+
+  const handleTouchEnd = () => {
+    touchStartYRef.current = null;
   };
 
   const handlePrev = () => {
@@ -259,6 +295,10 @@ export default function WorkflowJourney() {
     >
       {/* Sticky Viewport Container */}
       <div
+        onWheel={handleContainerWheel}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{
           position: force2D ? 'relative' : 'sticky',
           top: isMobile ? '56px' : '68px',
@@ -620,8 +660,8 @@ export default function WorkflowJourney() {
                 // Spacing and position along vertical track
                 const cardSpacing = isMobile ? 160 : 190;
                 const offsetY = delta * cardSpacing;
-                const scale = Math.max(0.86, Math.min(1.02, 1.02 - absDelta * 0.12));
-                const opacity = Math.max(0.12, Math.min(1, 1 - absDelta * 0.72));
+                const scale = Math.max(0.88, Math.min(1.02, 1.02 - absDelta * 0.08));
+                const opacity = Math.max(0.28, Math.min(1, 1 - absDelta * 0.52));
 
                 // Alternating sides on desktop: Even indices on LEFT, Odd indices on RIGHT
                 const isLeft = !isMobile && index % 2 === 0;
