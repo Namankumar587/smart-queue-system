@@ -82,13 +82,6 @@ export default function WorkflowJourney() {
 
   // System capability & accessibility check
   useEffect(() => {
-    // 0. Mobile viewport optimization (avoids sticky scroll-trap & touch lag)
-    if (typeof window !== 'undefined' && window.innerWidth < 840) {
-      setFallbackReason('mobile-viewport');
-      setForce2D(true);
-      return;
-    }
-
     // 1. Reduced motion check
     if (
       typeof window !== 'undefined' &&
@@ -259,7 +252,7 @@ export default function WorkflowJourney() {
       ref={trackRef}
       style={{
         position: 'relative',
-        height: force2D ? 'auto' : '360vh',
+        height: force2D ? 'auto' : (isMobile ? '240vh' : '360vh'),
         width: '100%',
         marginBottom: '0'
       }}
@@ -268,11 +261,11 @@ export default function WorkflowJourney() {
       <div
         style={{
           position: force2D ? 'relative' : 'sticky',
-          top: '68px',
-          height: force2D ? 'auto' : 'calc(100vh - 76px)',
+          top: isMobile ? '56px' : '68px',
+          height: force2D ? 'auto' : (isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 76px)'),
           width: '100%',
           overflow: 'hidden',
-          borderRadius: '24px',
+          borderRadius: isMobile ? '16px' : '24px',
           background: '#060105',
           border: '1px solid rgba(255, 60, 95, 0.25)',
           boxShadow: '0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 45, 85, 0.15)',
@@ -373,18 +366,18 @@ export default function WorkflowJourney() {
             <div
               style={{
                 position: 'absolute',
-                top: '16px',
-                left: '18px',
-                right: '18px',
+                top: isMobile ? '8px' : '16px',
+                left: isMobile ? '8px' : '18px',
+                right: isMobile ? '8px' : '18px',
                 zIndex: 30,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 flexWrap: 'wrap',
-                gap: '0.75rem',
-                padding: '12px 18px',
+                gap: '0.5rem',
+                padding: isMobile ? '8px 12px' : '12px 18px',
                 borderRadius: '16px',
-                background: 'rgba(18, 3, 10, 0.78)',
+                background: 'rgba(18, 3, 10, 0.85)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 60, 95, 0.3)',
@@ -444,7 +437,10 @@ export default function WorkflowJourney() {
                   background: 'rgba(10, 1, 5, 0.85)',
                   padding: '4px 10px',
                   borderRadius: '9999px',
-                  border: '1px solid rgba(255, 60, 95, 0.22)'
+                  border: '1px solid rgba(255, 60, 95, 0.22)',
+                  overflowX: isMobile ? 'auto' : 'visible',
+                  maxWidth: isMobile ? '100%' : 'none',
+                  scrollbarWidth: 'none'
                 }}
               >
                 {WORKFLOW_STATIONS.map((st, i) => {
