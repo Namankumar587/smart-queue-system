@@ -306,9 +306,9 @@ export default function WorkflowJourney() {
           width: '100%',
           overflow: 'hidden',
           borderRadius: isMobile ? '16px' : '24px',
-          background: '#060105',
-          border: '1px solid rgba(255, 60, 95, 0.25)',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 45, 85, 0.15)',
+          background: '#000000',
+          border: '1px solid rgba(255, 60, 95, 0.22)',
+          boxShadow: '0 30px 80px rgba(0, 0, 0, 0.98), 0 0 35px rgba(255, 45, 85, 0.12)',
           display: 'flex',
           flexDirection: 'column'
         }}
@@ -396,7 +396,7 @@ export default function WorkflowJourney() {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'radial-gradient(ellipse at center, rgba(6, 1, 5, 0.25) 0%, rgba(6, 1, 5, 0.88) 85%, #060105 100%)',
+                  'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, rgba(2, 0, 3, 0.85) 75%, #000000 100%)',
                 pointerEvents: 'none',
                 zIndex: 2
               }}
