@@ -93,9 +93,10 @@ export function generateCardTexture({
   ctx.fillText(subtext, 256, 230);
 
   // 6. Subtle clinic verification seal in footer
-  ctx.font = '500 14px system-ui, -apple-system, sans-serif';
-  ctx.fillStyle = 'rgba(226, 180, 190, 0.6)';
-  ctx.fillText('GL BAJAJ CLINIC &bull; DETERMINISTIC QUEUE', 256, 268);
+  ctx.font = '600 13px system-ui, -apple-system, sans-serif';
+  ctx.fillStyle = isYou ? 'rgba(255, 180, 195, 0.85)' : 'rgba(226, 180, 190, 0.65)';
+  ctx.letterSpacing = '1px';
+  ctx.fillText('GL BAJAJ CLINIC • DETERMINISTIC QUEUE', 256, 268);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.minFilter = THREE.LinearFilter;
