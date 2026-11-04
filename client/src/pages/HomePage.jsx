@@ -137,20 +137,16 @@ export const HomePage = () => {
 
           {/* Grid Layout for Floating Cards */}
           <div
+            className="home-cards-grid"
             style={{
               position: 'relative',
-              zIndex: 2,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(12, 1fr)',
-              gap: '20px',
-              alignItems: 'center'
+              zIndex: 2
             }}
           >
             {/* Top Left Card: "Expenses Report" -> "Clinic Flow Report" */}
             <div
-              className="cosmic-glass"
+              className="cosmic-glass home-card-col-4"
               style={{
-                gridColumn: 'span 4',
                 padding: '24px',
                 minHeight: '210px',
                 display: 'flex',
@@ -207,15 +203,13 @@ export const HomePage = () => {
 
             {/* CENTER ELEVATED HERO CARD: "Total Balance" -> "Live Queue Status & Serving Token" */}
             <div
-              className="cosmic-glass-hero"
+              className="cosmic-glass-hero home-card-hero"
               style={{
-                gridColumn: 'span 4',
                 padding: '28px 26px',
                 minHeight: '260px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                transform: 'scale(1.05)',
                 zIndex: 5
               }}
             >
@@ -286,9 +280,8 @@ export const HomePage = () => {
 
             {/* Top Right Card: "Assets" -> "Doctors On Duty" */}
             <div
-              className="cosmic-glass"
+              className="cosmic-glass home-card-col-4"
               style={{
-                gridColumn: 'span 4',
                 padding: '24px',
                 minHeight: '210px',
                 display: 'flex',
@@ -396,9 +389,8 @@ export const HomePage = () => {
 
             {/* Bottom Left Card: "Saving Budget" -> "Emergency & Priority Triage" */}
             <div
-              className="cosmic-glass"
+              className="cosmic-glass home-card-col-4"
               style={{
-                gridColumn: 'span 4',
                 padding: '24px',
                 minHeight: '160px',
                 display: 'flex',
@@ -432,9 +424,8 @@ export const HomePage = () => {
 
             {/* Bottom Center Search Bar: Directly paste UUID to track */}
             <div
-              className="cosmic-glass"
+              className="cosmic-glass home-card-col-4"
               style={{
-                gridColumn: 'span 4',
                 padding: '20px',
                 minHeight: '160px',
                 display: 'flex',
@@ -483,9 +474,8 @@ export const HomePage = () => {
 
             {/* Bottom Right Card: "You Goals" -> "Daily Clinic Goals & Progress" */}
             <div
-              className="cosmic-glass"
+              className="cosmic-glass home-card-col-4"
               style={{
-                gridColumn: 'span 4',
                 padding: '24px',
                 minHeight: '160px',
                 display: 'flex',

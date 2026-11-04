@@ -174,6 +174,7 @@ export default function InteractiveClinicHub() {
 
         {/* 3-Tab Mode Switcher Pills */}
         <div
+          className="clinic-hub-tabs"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -183,7 +184,10 @@ export default function InteractiveClinicHub() {
             borderRadius: '9999px',
             border: '1px solid rgba(255, 60, 95, 0.25)',
             marginTop: '1.5rem',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.7)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.7)',
+            maxWidth: '100%',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
           }}
         >
           <button

@@ -270,8 +270,8 @@
         color: #ffffff;
       }
 
-      /* Accessibility: Instant skip for reduced motion */
-      @media (prefers-reduced-motion: reduce) {
+      /* Accessibility: Instant skip for reduced motion or mobile devices */
+      @media (prefers-reduced-motion: reduce), (max-width: 768px) {
         #page-curtain {
           display: none !important;
         }
@@ -459,8 +459,9 @@
 
         animId = requestAnimationFrame(render);
 
-        // Click or press key to jump to website immediately
+        // Click, touch, or press key to jump to website immediately
         curtain.addEventListener('click', unveilWebsite);
+        curtain.addEventListener('touchstart', unveilWebsite, { passive: true });
         window.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
             unveilWebsite();

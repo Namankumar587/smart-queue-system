@@ -710,6 +710,84 @@ body.page-revealed #root {
 }
 
 /* =========================================================================
+   MOBILE RESPONSIVENESS & TOUCH ADAPTATION
+   ========================================================================= */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+}
+
+.nav-desktop-pill {
+  display: flex;
+}
+
+.nav-desktop-actions {
+  display: flex;
+}
+
+.nav-mobile-toggle {
+  display: none;
+}
+
+.home-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.home-card-col-4 {
+  grid-column: span 4;
+}
+
+.home-card-hero {
+  grid-column: span 4;
+  transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+  .nav-desktop-pill {
+    display: none !important;
+  }
+
+  .nav-desktop-actions {
+    display: none !important;
+  }
+
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+
+  .home-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .home-card-col-4 {
+    grid-column: span 1 !important;
+    width: 100% !important;
+  }
+
+  .home-card-hero {
+    grid-column: span 1 !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  .clinic-hub-tabs {
+    border-radius: 16px !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .clinic-hub-tabs button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* =========================================================================
    PRINT STYLESHEET (Thermal Slip / Patient Pass Export)
    ========================================================================= */
 @media print {

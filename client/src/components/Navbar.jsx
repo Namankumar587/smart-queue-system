@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ArrowLeft, Stethoscope, Ticket, Search, Shield, LayoutDashboard, Sparkles, LogOut } from 'lucide-react';
+import { ArrowLeft, Stethoscope, Ticket, Search, Shield, LayoutDashboard, Sparkles, LogOut, Menu, X } from 'lucide-react';
 
 export const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, role } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isActive = (path) => location.pathname === path;
+
+  // Auto-close mobile menu on route navigation
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <header
@@ -118,10 +124,10 @@ export const Navbar = () => {
           </Link>
         </div>
 
-        {/* Center: Frosted Pill Navigation Capsule (Matching Screenshot) */}
+        {/* Center: Frosted Pill Navigation Capsule (Desktop) */}
         <nav
+          className="nav-desktop-pill"
           style={{
-            display: 'flex',
             alignItems: 'center',
             gap: '4px',
             padding: '5px 8px',
@@ -246,8 +252,8 @@ export const Navbar = () => {
           )}
         </nav>
 
-        {/* Right: Quick CTA Pill & Auth Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Right: Quick CTA Pill & Auth Button (Desktop) */}
+        <div className="nav-desktop-actions" style={{ alignItems: 'center', gap: '10px' }}>
           {isAuthenticated ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span
@@ -330,7 +336,216 @@ export const Navbar = () => {
             <span>Book Now</span>
           </Link>
         </div>
+
+        {/* Right: Mobile Hamburger & Quick Action */}
+        <div className="nav-mobile-toggle" style={{ alignItems: 'center', gap: '8px' }}>
+          <Link
+            to="/book"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '7px 14px',
+              borderRadius: '9999px',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              background: 'linear-gradient(135deg, #FF2D55 0%, #D4143D 100%)',
+              color: '#FFFFFF',
+              boxShadow: '0 2px 10px rgba(255, 45, 85, 0.4)',
+              textDecoration: 'none'
+            }}
+          >
+            Book
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(28, 6, 14, 0.85)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255, 70, 105, 0.35)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+          >
+            {mobileMenuOpen ? <X size={20} color="#FF6B8B" /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Drawer Menu (Smooth Glass Dropdown) */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            marginTop: '10px',
+            padding: '16px',
+            backgroundColor: 'rgba(18, 3, 9, 0.96)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            border: '1px solid rgba(255, 60, 95, 0.35)',
+            borderRadius: '20px',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 45, 85, 0.15)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}
+        >
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '12px',
+              color: isActive('/') ? '#FFFFFF' : 'var(--text-muted)',
+              backgroundColor: isActive('/') ? 'rgba(255, 45, 85, 0.2)' : 'transparent',
+              fontWeight: 600,
+              fontSize: '0.92rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/book"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '12px',
+              color: isActive('/book') ? '#FFFFFF' : 'var(--text-muted)',
+              backgroundColor: isActive('/book') ? 'rgba(255, 45, 85, 0.2)' : 'transparent',
+              fontWeight: 600,
+              fontSize: '0.92rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            Book Token
+          </Link>
+
+          <Link
+            to="/track/11111111-1111-4111-8111-111111111111"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '12px',
+              color: location.pathname.startsWith('/track') ? '#FFFFFF' : 'var(--text-muted)',
+              backgroundColor: location.pathname.startsWith('/track') ? 'rgba(255, 45, 85, 0.2)' : 'transparent',
+              fontWeight: 600,
+              fontSize: '0.92rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            Live Queue Tracker
+          </Link>
+
+          <Link
+            to="/display"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '12px',
+              color: isActive('/display') ? '#FFFFFF' : 'var(--text-muted)',
+              backgroundColor: isActive('/display') ? 'rgba(255, 45, 85, 0.2)' : 'transparent',
+              fontWeight: 600,
+              fontSize: '0.92rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            Waiting Room TV Display
+          </Link>
+
+          <div style={{ height: '1px', backgroundColor: 'rgba(255, 60, 95, 0.2)', margin: '6px 0' }} />
+
+          {isAuthenticated ? (
+            <>
+              {role === 'DOCTOR' && (
+                <Link
+                  to="/doctor"
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    padding: '10px 16px',
+                    borderRadius: '12px',
+                    color: '#FFFFFF',
+                    backgroundColor: 'rgba(255, 45, 85, 0.15)',
+                    fontWeight: 600,
+                    fontSize: '0.92rem'
+                  }}
+                >
+                  Doctor Room Console
+                </Link>
+              )}
+              {(role === 'RECEPTIONIST' || role === 'ADMIN') && (
+                <Link
+                  to="/staff"
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    padding: '10px 16px',
+                    borderRadius: '12px',
+                    color: '#FFFFFF',
+                    backgroundColor: 'rgba(255, 45, 85, 0.15)',
+                    fontWeight: 600,
+                    fontSize: '0.92rem'
+                  }}
+                >
+                  Front Desk &amp; Staff Dashboard
+                </Link>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  localStorage.removeItem('glb_queue_token');
+                  localStorage.removeItem('glb_queue_user');
+                  window.location.href = '/login';
+                }}
+                style={{
+                  padding: '10px 16px',
+                  borderRadius: '12px',
+                  color: '#FF6B8B',
+                  backgroundColor: 'rgba(255, 59, 48, 0.15)',
+                  fontWeight: 600,
+                  fontSize: '0.92rem',
+                  textAlign: 'left',
+                  cursor: 'pointer'
+                }}
+              >
+                Log Out ({role})
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                padding: '10px 16px',
+                borderRadius: '12px',
+                color: '#FFFFFF',
+                backgroundColor: 'rgba(28, 6, 14, 0.8)',
+                border: '1px solid rgba(255, 70, 105, 0.3)',
+                fontWeight: 600,
+                fontSize: '0.92rem'
+              }}
+            >
+              Staff Portal Login
+            </Link>
+          )}
+        </div>
+      )}
     </header>
   );
 };

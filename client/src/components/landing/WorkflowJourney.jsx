@@ -82,6 +82,13 @@ export default function WorkflowJourney() {
 
   // System capability & accessibility check
   useEffect(() => {
+    // 0. Mobile viewport optimization (avoids sticky scroll-trap & touch lag)
+    if (typeof window !== 'undefined' && window.innerWidth < 840) {
+      setFallbackReason('mobile-viewport');
+      setForce2D(true);
+      return;
+    }
+
     // 1. Reduced motion check
     if (
       typeof window !== 'undefined' &&

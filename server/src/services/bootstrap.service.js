@@ -113,3 +113,4 @@ export const ensureBaselineData = async () => {
     console.warn('[Bootstrap Notice] Non-blocking bootstrap check error:', error.message);
   }
 };
+
