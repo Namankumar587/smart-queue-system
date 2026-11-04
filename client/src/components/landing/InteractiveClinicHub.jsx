@@ -106,8 +106,8 @@ export default function InteractiveClinicHub() {
         priorityTier === 'emergency'
           ? 'Urgent Emergency (Rank 10)'
           : priorityTier === 'senior'
-          ? 'Senior Citizen Priority (Rank 5)'
-          : 'Standard Registration';
+            ? 'Senior Citizen Priority (Rank 5)'
+            : 'Standard Registration';
 
       const ahead = priorityTier === 'emergency' ? 0 : priorityTier === 'senior' ? 1 : 3;
 
